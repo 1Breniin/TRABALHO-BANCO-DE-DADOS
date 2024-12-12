@@ -1,4 +1,4 @@
-#Sistema de Banco de Dados para o Campeonato Brasileiro
+**Sistema de Banco de Dados para o Campeonato Brasileiro**\\
 Este repositório contém o projeto de um sistema de banco de dados desenvolvido para organizar e gerenciar as informações do Campeonato Brasileiro de Futebol. O trabalho faz parte de um projeto acadêmico e aborda desde a modelagem do banco até a implementação de consultas SQL para atender aos principais requisitos do sistema.
 
 📋 Descrição do Projeto
