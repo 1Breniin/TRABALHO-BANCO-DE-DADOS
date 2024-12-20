@@ -1,0 +1,157 @@
+-- Inserindo dados na tabela classificacao:
+INSERT INTO classificacao (posicao, pontos, num_jogos, vitorias, empates, derrotas, gols_pro, gols_sofridos)
+VALUES
+(1, 0, 0, 0, 0, 0, 0, 0),
+(2, 0, 0, 0, 0, 0, 0, 0),
+(3, 0, 0, 0, 0, 0, 0, 0),
+(4, 0, 0, 0, 0, 0, 0, 0),
+(5, 0, 0, 0, 0, 0, 0, 0),
+(6, 0, 0, 0, 0, 0, 0, 0),
+(7, 0, 0, 0, 0, 0, 0, 0),
+(8, 0, 0, 0, 0, 0, 0, 0),
+(9, 0, 0, 0, 0, 0, 0, 0),
+(10, 0, 0, 0, 0, 0, 0, 0),
+(11, 0, 0, 0, 0, 0, 0, 0),
+(12, 0, 0, 0, 0, 0, 0, 0),
+(13, 0, 0, 0, 0, 0, 0, 0),
+(14, 0, 0, 0, 0, 0, 0, 0),
+(15, 0, 0, 0, 0, 0, 0, 0),
+(16, 0, 0, 0, 0, 0, 0, 0),
+(17, 0, 0, 0, 0, 0, 0, 0),
+(18, 0, 0, 0, 0, 0, 0, 0),
+(19, 0, 0, 0, 0, 0, 0, 0),
+(20, 0, 0, 0, 0, 0, 0, 0);
+
+-- Inserindo dados na tabela clube:
+INSERT INTO clube (nome, cidade, estado, estadio, maior_rival, tecnico, id_classificacao)
+VALUES
+('Athletico Paranaense', 'Curitiba', 'PR', 'Ligga Arena', 'Coritiba', 'Lucho González', 1),
+('Atlético Goianiense', 'Goiânia', 'GO', 'Antônio Accioly', 'Goiás', 'Anderson Gomes', 2),
+('Atlético Mineiro', 'Belo Horizonte', 'MG', 'Arena MRV', 'Cruzeiro', 'Gabriel Milito', 3),
+('Bahia', 'Salvador', 'BA', 'Arena Fonte Nova', 'Vitória', 'Rogério Ceni', 4),
+('Botafogo', 'Rio de Janeiro', 'RJ', 'Nilton Santos', 'Flamengo', 'Artur Jorge', 5),
+('Corinthians', 'São Paulo', 'SP', 'Neo Química Arena', 'Palmeiras', 'Ramón Díaz', 6),
+('Criciúma', 'Criciúma', 'SC', 'Heriberto Hulse', 'Joinville', 'Cláudio Tencati', 7),
+('Cruzeiro', 'Belo Horizonte', 'MG', 'Mineirão', 'Atlético Mineiro', 'Fernando Diniz', 8),
+('Cuiabá', 'Cuiabá', 'MT', 'Arena Pantanal', 'Mixto', 'Bernardo Franco', 9),
+('Flamengo', 'Rio de Janeiro', 'RJ', 'Maracanã', 'Vasco da Gama', 'Filipe Luís', 10),
+('Fluminense', 'Rio de Janeiro', 'RJ', 'Maracanã', 'Flamengo', 'Mano Menezes', 11),
+('Fortaleza', 'Fortaleza', 'CE', 'Arena Castelão', 'Ceará', 'Juan Pablo Vojvoda', 12),
+('Grêmio', 'Porto Alegre', 'RS', 'Arena do Grêmio', 'Internacional', 'Renato Portaluppi', 13),
+('Internacional', 'Porto Alegre', 'RS', 'Beira-Rio', 'Grêmio', 'Roger Machado', 14),
+('Juventude', 'Caxias do Sul', 'RS', 'Alfredo Jaconi', 'Caxias', 'Fábio Matias', 15),
+('Palmeiras', 'São Paulo', 'SP', 'Allianz Parque', 'Corinthians', 'Abel Ferreira', 16),
+('Red Bull Bragantino', 'Bragança Paulista', 'SP', 'Nabi Abi Chedid', 'Ponte Preta', 'Fernando Seabra', 17),
+('São Paulo', 'São Paulo', 'SP', 'MorumBIS', 'Corinthians', 'Luis Zubeldía', 18),
+('Vasco da Gama', 'Rio de Janeiro', 'RJ', 'São Januário', 'Flamengo', 'Rafael Paiva', 19),
+('Vitória', 'Salvador', 'BA', 'Barradão', 'Bahia', 'Thiago Carpini', 20);
+
+-- Inserindo dados na tabela jogador:
+INSERT INTO jogador (nome, numero_camisa, nacionalidade, data_nascimento, posicao, pe_bom, altura, id_clube)
+VALUES
+('Mycael', 41, 'Brasileiro', '2004-03-12', 'Goleiro', 'E', 1.91, 1),
+('Kaique Rocha', 4, 'Brasileiro', '2001-02-28', 'Zagueiro', 'D', 1.95, 1),
+('Thiago Heleno', 44, 'Brasileiro', '1988-09-17', 'Zagueiro', 'D', 1.87, 1),
+('Lucas Esquivel', 37, 'Argentino', '2001-10-14', 'Lateral Esquerdo', 'E', 1.83, 1),
+('Leonardo Godoy', 29, 'Argentino', '1995-04-28', 'Lateral Direito', 'D', 1.73, 1),
+('Fernandinho', 5, 'Brasileiro', '1985-05-04', 'Volante', 'D', 1.79, 1),
+('Christian', 88, 'Brasileiro', '2000-12-19', 'Meia Central', 'D', 1.78, 1),
+('Nikão', 11, 'Brasileiro', '1992-07-29', 'Meia Ofensivo', 'E', 1.74, 1),
+('Agustín Canobbio', 14, 'Uruguaio', '1998-10-01', 'Ponta Esquerda', 'D', 1.75, 1),
+('Emersonn', 90, 'Brasileiro', '2004-07-16', 'Ponta Direita', 'D', 1.86, 1),
+('Pablo', 92, 'Brasileiro', '1992-06-23', 'Centroavante', 'D', 1.85, 1),
+('Walter', 1, 'Brasileiro', '1987-11-18', 'Goleiro', 'D', 1.88, 9),
+('Alan Empereur', 33, 'Brasileiro', '1994-03-10', 'Zagueiro', 'E', 1.86, 9),
+('Marllon', 4, 'Brasileiro', '1992-04-16', 'Zagueiro', 'D', 1.86, 9),
+('Railan', 21, 'Brasileiro', '2000-03-10', 'Lateral Direito', 'D', 1.85, 9),
+('Ramon', 23, 'Brasileiro', '2001-03-13', 'Lateral Esquerdo', 'E', 1.79, 9),
+('Lucas Mineiro', 30, 'Brasileiro', '1996-02-24', 'Volante', 'E', 1.88, 9),
+('Fernando Sobral', 88, 'Brasileiro', '1994-12-17', 'Meia Central', 'D', 1.78, 9),
+('Max', 10, 'Brasileiro', '2001-05-12', 'Meia Ofensivo', 'E', 1.87, 9),
+('Clayson', 25, 'Brasileiro', '1995-03-19', 'Ponta Esquerda', 'D', 1.66, 9),
+('Isidro Pitta', 9, 'Paraguaio', '1999-08-14', 'Centroavante', 'D', 1.83, 9),
+('Derik Lacerda', 22, 'Brasileiro', '1999-09-27', 'Centroavante', 'E', 1.91, 9),
+('John Victor', 12, 'Brasileiro', '1996-02-13', 'Goleiro', 'D', 1.97, 5),
+('Alexander Barboza', 20, 'Argentino', '1995-03-16', 'Zagueiro', 'E', 1.93, 5),
+('Bastos', 15, 'Angolano', '1991-03-27', 'Zagueiro', 'D', 1.84, 5),
+('Vitinho', 22, 'Brasileiro', '1999-07-23', 'Lateral Direito', 'D', 1.74, 5),
+('Alex Telles', 13, 'Brasileiro', '1992-12-15', 'Lateral Esquerdo', 'E', 1.81, 5),
+('Marlon Freitas', 17, 'Brasileiro', '1995-03-27', 'Volante', 'D', 1.85, 5),
+('Gregore', 26, 'Brasileiro', '1994-03-02', 'Volante', 'D', 1.81, 5),
+('Thiago Almada', 23, 'Argentino', '2001-04-26', 'Meia Ofensivo', 'D', 1.71, 5),
+('Jefferson Savarino', 10, 'Venezuelano', '1996-11-11', 'Meia Ofensivo', 'D', 1.68, 5),
+('Luiz Henrique', 7, 'Brasileiro', '2001-01-02', 'Ponta Direita', 'E', 1.82, 5),
+('Igor Jesus', 99, 'Brasileiro', '2001-02-25', 'Centroavante', 'D', 1.79, 5),
+('Ronaldo', 1, 'Brasileiro', '1996-12-31', 'Goleiro', 'D', 1.93, 2),
+('Maguinho', 2, 'Brasileiro', '1992-01-06', 'Lateral Direito', 'D', 1.75, 2),
+('Adriano Martins', 3, 'Brasileiro', '1997-04-01', 'Zagueito', 'D', 1.93, 2),
+('Alix Vinicius', 4, 'Brasileiro', '1999-11-06', 'Zagueiro', 'D', 1.96, 2),
+('Guilherme Romão', 6, 'Brasileiro', '1997-10-07', 'Lateral Esquerdo', 'E', 1.79, 2),
+('Gonzalo Freitas', 5, 'Uruguaio', '1991-10-02', 'Volante', 'D', 1.86, 2),
+('Shaylon', 10, 'Brasileiro', '1997-04-27', 'Ponta Direita', 'E', 1.80, 2),
+('Rhaldney', 7, 'Brasileiro', '1998-11-20', 'Meia Ofensivo', 'D', 1.84, 2),
+('Roni', 8, 'Brasileiro', '1999-04-15', 'Meia Ofensivo', 'D', 1.74, 2),
+('Alejo Cruz', 11, 'Uruguaio', '2000-09-01', 'Ponta Esquerda', 'E', 1.69, 2),
+('Derek', 9, 'Brasileiro', '1997-12-02', 'Centroavante', 'E', 1.85, 2);
+
+-- Inserindo na tabela partida:
+INSERT INTO partida (data_inicio, id_mandante, id_visitante, resultado_mandante, resultado_visitante)
+VALUES
+('2024-04-14', 1, 9, 4, 0),
+('2024-07-28', 9, 1, 1, 2),
+('2024-06-19', 5, 1, 1, 1),
+('2024-10-05', 1, 5, 0, 1),
+('2024-07-03', 9, 5, 1, 2);
+
+-- Inserindo na tabela gol:
+INSERT INTO gol (minuto, id_jogador, id_partida)
+VALUES
+(23, 11, 1),
+(37, 9, 1),
+(39, 5, 1),
+(81, 11, 1),
+(14, 33, 4);
+
+-- Inserindo na tabela assistencia:
+INSERT INTO assistencia (minuto, id_jogador)
+VALUES
+(23, 4),
+(37, 6),
+(39, 9),
+(81, 8),
+(14, 31);
+
+-- Inserindo na tabela cartao:
+INSERT INTO cartao (tipo, minuto, id_jogador, id_partida)
+VALUES
+('A', 43, 29, 4),
+('A', 76, 2, 4),
+('A', 41, 22, 1),
+('A', 46, 13, 1),
+('A', 87, 5, 2);
+
+-- Inserindo na tabela escalados:
+INSERT INTO escalados (id_partida, id_jogador)
+VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(1, 6),
+(1, 7),
+(1, 8),
+(1, 9),
+(1, 10),
+(1, 11),
+(1, 12),
+(1, 13),
+(1, 14),
+(1, 15),
+(1, 16),
+(1, 17),
+(1, 18),
+(1, 19),
+(1, 20),
+(1, 21),
+(1, 22);
