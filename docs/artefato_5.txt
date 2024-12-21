@@ -1,0 +1,69 @@
+--Tabela de Classificação Atualizada
+
+SELECT 
+    c.nome AS clube,
+    SUM(CASE 
+        WHEN p.resultado_mandante > p.resultado_visitante AND p.id_mandante = c.id_clube THEN 3
+        WHEN p.resultado_visitante > p.resultado_mandante AND p.id_visitante = c.id_clube THEN 3
+        WHEN p.resultado_mandante = p.resultado_visitante THEN 1
+        ELSE 0
+    END) AS pontos,
+    COUNT(p.id_partida) AS jogos,
+    SUM(CASE 
+        WHEN (p.id_mandante = c.id_clube AND p.resultado_mandante > p.resultado_visitante) OR
+             (p.id_visitante = c.id_clube AND p.resultado_visitante > p.resultado_mandante) THEN 1
+        ELSE 0
+    END) AS vitorias,
+    SUM(CASE 
+        WHEN p.resultado_mandante = p.resultado_visitante THEN 1
+        ELSE 0
+    END) AS empates,
+    SUM(CASE 
+        WHEN (p.id_mandante = c.id_clube AND p.resultado_mandante < p.resultado_visitante) OR
+             (p.id_visitante = c.id_clube AND p.resultado_visitante < p.resultado_mandante) THEN 1
+        ELSE 0
+    END) AS derrotas
+FROM clube c
+LEFT JOIN partida p ON c.id_clube IN (p.id_mandante, p.id_visitante)
+GROUP BY c.id_clube
+ORDER BY pontos DESC, vitorias DESC, c.nome;
+
+
+--Consulta de Artilheiros com Assistências
+
+SELECT 
+    j.nome AS jogador,
+    c.nome AS clube,
+    COUNT(DISTINCT g.id_gol) AS total_gols,
+    COUNT(DISTINCT a.id_assistencia) AS total_assistencias,
+    (COUNT(DISTINCT g.id_gol) + COUNT(DISTINCT a.id_assistencia)) AS total_contribuicoes
+FROM jogador j
+LEFT JOIN gol g ON j.id_jogador = g.id_jogador
+LEFT JOIN assistencia a ON j.id_jogador = a.id_jogador
+JOIN clube c ON j.id_clube = c.id_clube
+GROUP BY j.id_jogador, c.nome
+ORDER BY total_contribuicoes DESC, total_gols DESC;
+
+
+--Jogadores mais Penalizados
+
+SELECT 
+    j.nome AS jogador,
+    c.nome AS clube,
+    COUNT(CASE WHEN ct.tipo = 'A' THEN 1 END) AS cartoes_amarelos,
+    COUNT(CASE WHEN ct.tipo = 'V' THEN 1 END) AS cartoes_vermelhos,
+    COUNT(ct.id_cartao) AS total_cartoes
+FROM jogador j
+JOIN cartao ct ON j.id_jogador = ct.id_jogador
+JOIN clube c ON j.id_clube = c.id_clube
+GROUP BY j.id_jogador, c.nome
+ORDER BY total_cartoes DESC, cartoes_vermelhos DESC, cartoes_amarelos DESC;
+
+
+--Assistências por Jogador
+
+SELECT j.nome, COUNT(a.id_assistencia) AS total_assistencias
+FROM jogador j
+JOIN assistencia a ON j.id_jogador = a.id_jogador
+GROUP BY j.id_jogador
+ORDER BY total_assistencias DESC;
