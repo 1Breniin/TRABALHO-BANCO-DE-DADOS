@@ -1,15 +1,5 @@
 from time import sleep
-
-def menu_clubes():
-    pass
-
-
-def menu_jogadores():
-    pass
-
-
-def menu_partidas():
-    pass
+from menu import menu_clubes, menu_jogadores, menu_partidas, menu_estatisticas
 
 
 def executar():
@@ -17,13 +7,14 @@ def executar():
     
     executando = True
     while executando:
-        print("=========== CAMPEONATO BRASILEIRO ===========\n")
+        print("\n=========== CAMPEONATO BRASILEIRO ===========\n")
         
         print("1- Classificação")
         print("2- Clubes")
         print("3- Jogadores")
         print("4- Partidas")
-        print("5- Sair\n")
+        print("5- Estatístiscas")
+        print("0- Sair\n")
         
         opcao = int(input("Opção selecionada: "))
         
@@ -44,13 +35,16 @@ def executar():
                 menu_partidas()
             
             case 5:
+                print("Estatísticas do Campeonato\n")
+                menu_estatisticas()
+            
+            case 0:
                 executando = False
             
             case _:
                 print("Opção inválida! Tente novamente...\n")
                 sleep(1.5)
     
-        
-
+    
 if __name__ == "__main__":
     executar()
