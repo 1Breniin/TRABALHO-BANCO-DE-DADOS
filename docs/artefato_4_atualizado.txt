@@ -106,17 +106,17 @@ VALUES
 ('Cuello', 28, 'Argentino', '2000-05-05', 'Ponta Direita', 'D', 1.76, 3),
 ('Rubens', 44, 'Brasileiro', '2001-06-21', 'Ponta Esquerda', 'E', 1.78, 3),
 ('Hulk', 7, 'Brasileiro', '1986-07-25', 'Centroavante', 'E', 1.80, 3),
-('Danilo Fernandes', 1, 'Brasileiro', '1988-04-03', 'Goleiro', 'D', 1.88, 4),
-('Gilberto', 2, 'Brasileiro', '1993-03-07', 'Lateral direito', 'D', 1.73, 4),
-('Kanu', 4, 'Brasileiro', '1994-09-14', 'Zagueiro', 'D', 1.86, 4),
-('Ramos Mingo', 5, 'Argentino', '2002-11-18', 'Zagueiro', 'D', 1.80, 4),
-('Luciano Juba', 6, 'Brasileiro', '1999-02-13', 'Lateral esquerdo', 'E', 1.75, 4),
-('Caio Alexandre', 8, 'Brasileiro', '1999-02-24', 'Voante 1.75, 4),
-('Jean Lucas', 20, 'Brasileiro', '1998-06-22', 'Volante, 1.81, 4),
-('Everton Ribeiro', 10, 'Brasileiro', '1989-04-10', 'Meia ofensivo', 'E', 1.74, 4),
-('Ademir', 11, 'Brasileiro', '1995-10-16', 'Ponta direita', 'D', 1.73, 4),
-('Cauly', 7, 'Brasileiro', '1995-09-15', 'Meia ofensivo', 'D', 1.75, 4),
-('Lucho Rodríguez', 9, 'Uruguaio', '1998-05-12', 'Centroavante', 'E', 1.82, 4),
+('Marcos Felipe', 1, 'Brasileiro', '1997-01-01', 'Goleiro', 'D', 1.90, 4),
+('Gilberto', 2, 'Brasileiro', '1997-01-01', 'Lateral-direito', 'D', 1.75, 4),
+('David Duarte', 3, 'Brasileiro', '1997-01-01', 'Zagueiro', 'D', 1.85, 4),
+('Ramos Mingo', 4, 'Argentino', '1997-01-01', 'Zagueiro', 'D', 1.85, 4),
+('Rezende', 6, 'Brasileiro', '1997-01-01', 'Lateral-esquerdo', 'E', 1.80, 4),
+('Acevedo', 5, 'Paraguaio', '1997-01-01', 'Volante', 'D', 1.80, 4),
+('Erick', 8, 'Brasileiro', '1997-01-01', 'Meio-campista', 'D', 1.75, 4),
+('Jean Lucas', 10, 'Brasileiro', '1997-01-01', 'Meio-campista', 'D', 1.75, 4),
+('Cauly', 11, 'Brasileiro', '1997-01-01', 'Ponta-direita', 'D', 1.75, 4),
+('Tiago', 7, 'Brasileiro', '1997-01-01', 'Atacante', 'D', 1.80, 4),
+('Everaldo', 9, 'Brasileiro', '1997-01-01', 'Ponta-esquerda', 'E', 1.75, 4),
 ('Hugo Souza', 12, 'Brasileiro', '1999-01-31', 'Goleiro', 'D', 1.96, 6),
 ('Mateuzinho', 2, 'Brasileiro', '2000-09-11', 'Lateral direito', 'D', 1.75, 6),
 ('Félix Torres', 3, 'Equatoriano', '1997-01-11', 'Zagueiro', 'D', 1.88, 6),
@@ -271,7 +271,6 @@ VALUES
 ('Wellington Rato', 11, 'Brasileiro', '1997-01-01', 'Ponta direita', 'D', 1.75, 20),
 ('Hugo', 7, 'Brasileiro', '1997-01-01', 'Ponta esquerda', 'E', 1.75, 20),
 ('Gustavo Mosquito', 9, 'Brasileiro', '1997-01-01', 'Atacante', 'D', 1.80, 20);
-
 -- Inserindo na tabela partida:
 INSERT INTO partida (data_inicio, id_mandante, id_visitante, resultado_mandante, resultado_visitante)
 VALUES
