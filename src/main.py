@@ -1,5 +1,6 @@
 from time import sleep
 from menu import menu_clubes, menu_jogadores, menu_partidas, menu_estatisticas
+from classificacao import gerar_classificacao
 
 
 def executar():
@@ -20,7 +21,8 @@ def executar():
         
         match opcao:
             case 1:
-                print("\n############## TABELA BRASILEIRÂO ##############\n")
+                print("\n/////////////////// TABELA DO BRASILEIRÃO ///////////////////\n")
+                gerar_classificacao()
             
             case 2:
                 menu_clubes()
