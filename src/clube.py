@@ -42,12 +42,12 @@ def existe_clube(id_clube):
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
-    # Comando para selecionar todos os clubes do banco de dados:
-    comando = f"""SELECT COUNT(*) FROM clube WHERE id_clube = {id_clube}"""
+    # Comando para verificar se o clube existe no banco de dados:
+    comando = """SELECT COUNT(*) FROM clube WHERE id_clube = %s"""
     
     existe = False
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        cursor.execute(comando, (id_clube,)) # executa o respectivo comando
         numero_clubes = cursor.fetchone()[0] # leitura do banco de dados
         
     except Error as e:
@@ -70,13 +70,14 @@ def inserir_clube(clube):
     cursor = conexao.cursor()
     
     # Comando para inserir o clube no banco de dados:
-    comando = f"""INSERT INTO clube (nome, cidade, estado, estadio,
-            maior_rival, tecnico)
-            VALUES ('{clube.nome}', '{clube.cidade}', '{clube.estado}',
-            '{clube.estadio}', '{clube.maior_rival}', '{clube.tecnico}')"""
+    comando = """INSERT INTO clube (nome, cidade, estado, estadio,
+            maior_rival, tecnico) VALUES (%s, %s, %s, %s, %s, %s)"""
     
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        # Executa o respectivo comando:
+        cursor.execute(comando, (clube.nome, clube.cidade, clube.estado,
+                                 clube.estadio, clube.maior_rival, 
+                                 clube.tecnico,))
         conexao.commit() # edita o banco de dados
         
     except Error as e:
@@ -99,10 +100,10 @@ def remover_clube(id_clube):
         cursor = conexao.cursor()
         
         # Comando para remover o clube do banco de dados:
-        comando = f"""DELETE FROM clube WHERE id_clube = {id_clube}"""
+        comando = """DELETE FROM clube WHERE id_clube = %s"""
         
         try:
-            cursor.execute(comando) # executa o respectivo comando
+            cursor.execute(comando, (id_clube,)) # executa o respectivo comando
             conexao.commit() # edita o banco de dados
         
         except Error as e:
@@ -125,12 +126,12 @@ def buscar_clube(nome):
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
-    # Comando para selecionar todos os clubes do banco de dados:
-    comando = f"""SELECT id_clube, cidade, estado, estadio, maior_rival, tecnico 
-            FROM clube WHERE nome = '{nome}'"""
+    # Comando para selecionar o clube do banco de dados pelo nome:
+    comando = """SELECT id_clube, cidade, estado, estadio, maior_rival, tecnico 
+            FROM clube WHERE nome = %s"""
     
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        cursor.execute(comando, (nome,)) # executa o respectivo comando
         informacoes = cursor.fetchone() # leitura do banco de dados
     
     except Error as e:
@@ -159,12 +160,18 @@ def atualizar_clube(id_clube):
             
         clube_atualizado = clube_input()
             
-        comando = f"""UPDATE clube SET nome = '{clube_atualizado.nome}', 
-                cidade = '{clube_atualizado.cidade}', estado = '{clube_atualizado.estado}', 
-                estadio = '{clube_atualizado.estadio}', maior_rival = '{clube_atualizado.maior_rival}', tecnico = '{clube_atualizado.tecnico}' WHERE id_clube = {id_clube}"""
+        comando = """UPDATE clube SET nome = %s, cidade = %s, estado = %s,
+                estadio = %s, maior_rival = %s, tecnico = %s
+                WHERE id_clube = %s"""
             
         try:
-            cursor.execute(comando) # executa o respectivo comando
+            # Executa o respectivo comando:
+            cursor.execute(comando, (clube_atualizado.nome,
+                                     clube_atualizado.cidade,
+                                     clube_atualizado.estado,
+                                     clube_atualizado.estadio,
+                                     clube_atualizado.maior_rival,
+                                     clube_atualizado.tecnico, id_clube,))
             conexao.commit() # edita o banco de dados
             
         except Error as e:

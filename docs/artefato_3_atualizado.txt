@@ -1,0 +1,93 @@
+-- Nomes: Arthur Vieira Silva, Breno Esteves dos Santos e Leonardo Patias Johansson
+
+CREATE DATABASE brasileirao;
+
+-- Criação da tabela clube:
+CREATE TABLE clube (
+	id_clube INT PRIMARY KEY AUTO_INCREMENT,
+  	nome VARCHAR(30) NOT NULL,
+  	cidade VARCHAR(20),
+  	estado VARCHAR(2),
+  	estadio VARCHAR(30) NOT NULL,
+  	maior_rival VARCHAR(30),
+  	tecnico VARCHAR(30) NOT NULL
+);
+
+-- Criação da tabela classificacao:
+CREATE TABLE classificacao (
+	id_classificacao INT PRIMARY KEY AUTO_INCREMENT,
+  	posicao INT,
+  	pontos INT,
+	num_jogos INT,
+  	vitorias INT,
+  	empates INT,
+  	derrotas INT,
+  	gols_pro INT,
+  	gols_sofridos INT,
+	id_clube INT,
+	FOREIGN KEY (id_clube) REFERENCES clube(id_clube) ON DELETE SET NULL
+);
+
+
+-- Criação da tabela partida: 
+CREATE TABLE partida (
+	id_partida INT PRIMARY KEY AUTO_INCREMENT,
+  	data_inicio DATE,
+  	id_mandante INT,
+  	id_visitante INT,
+  	resultado_mandante INT,
+  	resultado_visitante INT,
+  	FOREIGN KEY (id_mandante) REFERENCES clube(id_clube) ON DELETE CASCADE,
+  	FOREIGN KEY (id_visitante) REFERENCES clube(id_clube) ON DELETE CASCADE
+);
+
+-- Criação da tabela jogador:
+CREATE TABLE jogador (
+	id_jogador INT PRIMARY KEY AUTO_INCREMENT,
+	nome VARCHAR(30) NOT NULL,
+  	numero_camisa INT NOT NULL,
+  	nacionalidade VARCHAR(30) DEFAULT 'Brasileiro',
+  	data_nascimento DATE,
+  	posicao VARCHAR(20) NOT NULL,
+  	pe_bom ENUM('D', 'E'),
+  	altura DECIMAL(3, 2),
+  	id_clube INT,
+  	FOREIGN KEY (id_clube) REFERENCES clube(id_clube) ON DELETE SET NULL
+);
+
+-- Criação da tabela gol:
+CREATE TABLE gol (
+	id_gol INT PRIMARY KEY AUTO_INCREMENT,
+	minuto INT,
+  	id_jogador INT,
+  	id_partida INT,
+  	FOREIGN KEY (id_partida) REFERENCES partida(id_partida) ON DELETE CASCADE,
+  	FOREIGN KEY (id_jogador) REFERENCES jogador(id_jogador) ON DELETE CASCADE
+);
+
+-- Criação da tabela assistencia:
+CREATE TABLE assistencia (
+	id_assistencia INT PRIMARY KEY AUTO_INCREMENT,
+	minuto INT,
+  	id_jogador INT,
+  	FOREIGN KEY (id_jogador) REFERENCES jogador(id_jogador) ON DELETE CASCADE
+);
+
+-- Criacao da tabela cartao:
+CREATE TABLE cartao (
+	id_cartao INT PRIMARY KEY AUTO_INCREMENT,
+  	tipo ENUM('A', 'V'),
+  	minuto INT,
+  	id_jogador INT,
+  	id_partida INT,
+  	FOREIGN KEY (id_jogador) REFERENCES jogador(id_jogador) ON DELETE CASCADE,
+  	FOREIGN KEY (id_partida) REFERENCES partida(id_partida) ON DELETE CASCADE
+);
+
+-- Criacao da tabela escalados:
+CREATE TABLE escalados (
+	id_partida INT,
+  	id_jogador INT,
+  	FOREIGN KEY (id_partida) REFERENCES partida(id_partida) ON DELETE CASCADE,
+  	FOREIGN KEY (id_jogador) REFERENCES jogador(id_jogador) ON DELETE SET NULL
+);

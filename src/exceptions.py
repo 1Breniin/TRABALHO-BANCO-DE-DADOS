@@ -59,3 +59,45 @@ def verifica_id():
             break
          
     return id
+
+
+def verifica_resultado():
+    """
+        Função utilizada para verificar se o resultado da partida digitado pelo
+        usuário é válido.
+    """
+    
+    while True:
+        try:
+            resultado = int(input("\tResultado: "))
+        except ValueError:
+            print("Valor inválido!")
+        else:
+            if resultado >= 0:
+                break
+            
+            else:
+                print("Resultado não permitido!")
+        
+    return resultado
+
+
+def verifica_minuto():
+    """
+        Função utilizada para verificar se o minuto do gol digitado pelo
+        usuário é válido.
+    """
+    
+    while True:
+        try:
+            minuto = int(input("\tMinuto: "))
+        except ValueError:
+            print("Valor inválido!")
+        else:
+            if minuto >= 0 and minuto < 110:
+                break
+            
+            else:
+                print("Minuto não permitido!")
+         
+    return minuto

@@ -1,6 +1,8 @@
 from mysql.connector import Error
+from time import sleep
 from conexao_bd import bd_conectar
 from exceptions import verifica_numero_camisa, verifica_altura, verifica_id
+from clube import existe_clube
 
 
 class Jogador:
@@ -41,13 +43,22 @@ def jogador_input():
     altura = verifica_altura()
     
     print("A seguir, informe o ID do clube do jogador:")
-    id_clube = verifica_id()
+    while True:
+        id_clube = verifica_id()
+        
+        if existe_clube(id_clube):
+            break
+        
+        else:
+            print(f"O clube com o ID {id_clube} não existe! Tente novamente...\n")
+            sleep(1)
     
     nacionalidade = ''
     nacionalidade = input("Nacionalidade: ")
         
     # Criação de um objeto jogador com os dados digitados pelo usuário:
-    jogador = Jogador(nome, numero_camisa, data_nascimento, posicao, pe_bom, altura, id_clube, nacionalidade=nacionalidade)
+    jogador = Jogador(nome, numero_camisa, data_nascimento, posicao, pe_bom,
+                      altura, id_clube, nacionalidade=nacionalidade)
     
     return jogador
 
@@ -61,12 +72,12 @@ def existe_jogador(id_jogador):
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
-    # Comando para selecionar todos os jogadores do banco de dados:
-    comando = f"""SELECT COUNT(*) FROM jogador WHERE id_jogador = {id_jogador}"""
+    # Comando para verificar se o jogador existe no banco de dados:
+    comando = """SELECT COUNT(*) FROM jogador WHERE id_jogador = %s"""
     
     existe = False
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        cursor.execute(comando, (id_jogador,)) # executa o respectivo comando
         numero_jogadores = cursor.fetchone()[0] # leitura do banco de dados
         
     except Error as e:
@@ -82,6 +93,42 @@ def existe_jogador(id_jogador):
     return existe
 
 
+def jogador_pertence_clube(id_jogador, id_clube, cursor):
+    """
+        Função utilizada para verificar se um determinado id_jogador pertence
+        a um id_clube.
+    """
+                
+    comando = """SELECT COUNT(*) FROM jogador WHERE id_jogador = %s AND
+            id_clube = %s"""
+            
+    cursor.execute(comando, (id_jogador, id_clube,))
+    resultado = cursor.fetchone()[0]
+    
+    if resultado > 0:
+        return True
+
+    return False
+
+
+def jogador_pertence_escalados(id_jogador, id_partida, cursor):
+    """
+        Função utilizada para verificar se um determinado id_jogador pertence
+        aos escalados de uma determinada id_partida.
+    """
+                
+    comando = """SELECT COUNT(*) FROM escalados WHERE id_jogador = %s AND
+            id_partida = %s"""
+            
+    cursor.execute(comando, (id_jogador, id_partida,))
+    resultado = cursor.fetchone()[0]
+    
+    if resultado > 0:
+        return True
+
+    return False
+    
+    
 def inserir_jogador(jogador):
     """Função utilizada para inserir um novo jogador."""
     
@@ -89,15 +136,17 @@ def inserir_jogador(jogador):
     cursor = conexao.cursor()
     
     # Comando para inserir o jogador no banco de dados:
-    comando = f"""INSERT INTO jogador (nome, numero_camisa, nacionalidade,
+    comando = """INSERT INTO jogador (nome, numero_camisa, nacionalidade,
             data_nascimento, posicao, pe_bom, altura, id_clube)
-            VALUES ('{jogador.nome}', {jogador.numero_camisa},
-            '{jogador.nacionalidade}', '{jogador.data_nascimento}',
-            '{jogador.posicao}', '{jogador.pe_bom}', {jogador.altura},
-            {jogador.id_clube})"""
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"""
     
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        # Executa o respectivo comando:
+        cursor.execute(comando, (jogador.nome, jogador.numero_camisa,
+                                 jogador.nacionalidade,
+                                 jogador.data_nascimento, jogador.posicao,
+                                 jogador.pe_bom, jogador.altura,
+                                 jogador.id_clube,))
         conexao.commit() # edita o banco de dados
     
     except Error as e:
@@ -117,10 +166,10 @@ def remover_jogador(id_jogador):
         cursor = conexao.cursor()
         
         # Comando para remover o jogador do banco de dados:
-        comando = f"""DELETE from jogador WHERE id_jogador = {id_jogador}"""
+        comando = """DELETE from jogador WHERE id_jogador = %s"""
         
         try:
-            cursor.execute(comando) # executa o respectivo comando
+            cursor.execute(comando, (id_jogador,)) # executa o respectivo comando
             conexao.commit() # edita o banco de dados
         
         except Error as e:
@@ -144,19 +193,21 @@ def buscar_jogadores(nome_clube):
     cursor = conexao.cursor()
     
     # Comando para obter o id_clube de acordo com o nome do clube:
-    comando = f"""SELECT id_clube FROM clube  WHERE nome = '{nome_clube}'"""
+    comando = """SELECT id_clube FROM clube  WHERE nome = %s"""
         
     try:
-        cursor.execute(comando) # executa o respectivo comando
+        cursor.execute(comando, (nome_clube,)) # executa o respectivo comando
         resultado = cursor.fetchone() # leitura do banco de dados
                 
         if resultado:
             id_clube = resultado[0]
             
             # Comando para obter todos os jogadores de um determinado clube:
-            comando = f"""SELECT id_jogador, nome, numero_camisa, nacionalidade, data_nascimento, posicao, pe_bom, altura FROM jogador WHERE id_clube = {id_clube}"""
+            comando = """SELECT id_jogador, nome, numero_camisa,
+                    nacionalidade, data_nascimento, posicao, pe_bom, altura
+                    FROM jogador WHERE id_clube = %s"""
                     
-            cursor.execute(comando) # executa o respectivo comando
+            cursor.execute(comando, (id_clube,)) # executa o respectivo comando
             jogadores = cursor.fetchall() # leitura do banco de dados
             
             if jogadores:
@@ -189,11 +240,22 @@ def atualizar_jogador(id_jogador):
             
         jogador_atualizado = jogador_input()
         
-        comando = f"""UPDATE jogador SET nome = '{jogador_atualizado.nome}', 
-                numero_camisa = {jogador_atualizado.numero_camisa}, data_nascimento = '{jogador_atualizado.data_nascimento}', posicao = '{jogador_atualizado.posicao}', pe_bom = '{jogador_atualizado.pe_bom}', altura = {jogador_atualizado.altura}, id_clube = {jogador_atualizado.id_clube}, nacionalidade = '{jogador_atualizado.nacionalidade}' WHERE id_jogador = {id_jogador}"""
+        comando = """UPDATE jogador SET nome = %s, numero_camisa = %s,
+                data_nascimento = %s, posicao = %s, pe_bom = %s, altura = %s,
+                id_clube = %s, nacionalidade = %s
+                WHERE id_jogador = %s"""
             
         try:
-            cursor.execute(comando) # executa o respectivo comando
+            # Executa o respectivo comando:
+            cursor.execute(comando, (jogador_atualizado.nome,
+                                     jogador_atualizado.numero_camisa,
+                                     jogador_atualizado.data_nascimento,
+                                     jogador_atualizado.posicao,
+                                     jogador_atualizado.pe_bom,
+                                     jogador_atualizado.altura,
+                                     jogador_atualizado.id_clube,
+                                     jogador_atualizado.nacionalidade,
+                                     id_jogador,))
             conexao.commit() # edita o banco de dados
             
         except Error as e:

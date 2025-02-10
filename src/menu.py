@@ -1,6 +1,7 @@
 from time import sleep
 from clube import clube_input, inserir_clube, remover_clube, buscar_clube, atualizar_clube
 from jogador import jogador_input, inserir_jogador, remover_jogador, buscar_jogadores, atualizar_jogador
+from partida import partida_input, inserir_partida, remover_partida, atualizar_partida, buscar_partidas
 from exceptions import verifica_id
 
 
@@ -64,7 +65,7 @@ def menu_jogadores():
         
         match opcao:
             case 1:
-                nome_clube = input("Nome do clube: ")
+                nome_clube = input("Nome do clube: ").strip().capitalize()
                 buscar_jogadores(nome_clube)
             
             case 2:
@@ -93,8 +94,45 @@ def menu_jogadores():
 def menu_partidas():
     """Função utilizada para obter informações das partidas."""
     
-    pass
-
+    executando = True
+    while executando:
+        print("\n--------- MENU PARTIDAS ---------\n")
+        
+        print("1- Obter informações das partidas disputadas por um clube")
+        print("2- Inserir uma nova partida")
+        print("3- Remover partida")
+        print("4- Atualizar partida")
+        print("5- Voltar\n")
+        
+        opcao = int(input("Opção selecionada: "))
+        
+        match opcao:
+            case 1:
+                nome_clube = input("Nome do clube: ").strip().capitalize()
+                buscar_partidas(nome_clube)
+             
+            case 2:
+                print("\nPreencha as informações da nova partida:\n")
+                partida = partida_input()
+                inserir_partida(partida)
+                
+            case 3:
+                print("É preciso informar o ID da partida que deseja remover:")
+                id_partida = verifica_id()
+                remover_partida(id_partida)
+                
+            case 4:
+                print("É preciso informar o ID da partida que deseja atualizar:")
+                id_partida = verifica_id()
+                atualizar_partida(id_partida)
+            
+            case 5:
+                executando = False
+                
+            case _:
+                print("Opção inválida! Tente novamente...\n")
+                sleep(1.5)
+                
 
 def menu_estatisticas():
     """Função utilizada para obter as estatísticas do campeonato."""
@@ -107,4 +145,4 @@ def menu_estatisticas():
         print("2- Jogadores com mais assistências no campeonato")
         print("3- Jogadores com mais gols e assistências no campeonato")
         print("4- Jogadores com mais cartões no campeonato")
-        print("5- Voltar")
+        print("5- Voltar\n")

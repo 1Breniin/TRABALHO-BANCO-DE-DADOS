@@ -23,19 +23,15 @@ def executar():
                 print("\n############## TABELA BRASILEIRÂO ##############\n")
             
             case 2:
-                print("Informações sobre os clubes:\n")
                 menu_clubes()
             
             case 3:
-                print("Informações sobre os jogadores:\n")
                 menu_jogadores()
                 
             case 4:
-                print("Partidas realizadas:\n")
                 menu_partidas()
             
             case 5:
-                print("Estatísticas do Campeonato\n")
                 menu_estatisticas()
             
             case 0:
