@@ -4,9 +4,10 @@ def verifica_numero_camisa():
         usuário para um jogador é válido.
     """
 
+    # Enquanto o dado não for válido:
     while True:
         try:
-            numero_camisa = int(input("Número da Camisa: "))
+            numero_camisa = int(input("\tNúmero da Camisa: "))
     
         except ValueError:
             print("Tipo de dado inválido!\n")
@@ -24,12 +25,13 @@ def verifica_numero_camisa():
 def verifica_altura():
     """
         Função utilizada para verificar se a altura digitada pelo
-        usuário para um jogador é válido.
+        usuário para um jogador é válida.
     """
     
+    # Enquanto o dado não for válido:
     while True:
         try:
-            altura = float(input("Altura (X.XX): "))
+            altura = float(input("\tAltura (X.XX): "))
         
         except ValueError:
             print("Tipo de dado inválido!\n")
@@ -39,7 +41,7 @@ def verifica_altura():
                 break
         
             else:
-                print("Altura não permitida!")
+                print("Altura não permitida!\n")
     
     return altura
 
@@ -50,11 +52,14 @@ def verifica_id():
         usuário é válido.
     """
     
+    # Enquanto o dado não for válido:
     while True:
         try:
             id = int(input("\tID: "))
+        
         except ValueError:
-            print("Valor inválido!")
+            print("Valor inválido!\n")
+        
         else:
             break
          
@@ -67,17 +72,20 @@ def verifica_resultado():
         usuário é válido.
     """
     
+    # Enquanto o dado não for válido:
     while True:
         try:
             resultado = int(input("\tResultado: "))
+        
         except ValueError:
             print("Valor inválido!")
+        
         else:
             if resultado >= 0:
                 break
             
             else:
-                print("Resultado não permitido!")
+                print("Resultado não permitido!\n")
         
     return resultado
 
@@ -88,16 +96,19 @@ def verifica_minuto():
         usuário é válido.
     """
     
+    # Enquanto o dado não for válido:
     while True:
         try:
             minuto = int(input("\tMinuto: "))
+        
         except ValueError:
-            print("Valor inválido!")
+            print("Valor inválido!\n")
+        
         else:
             if minuto >= 0 and minuto < 110:
                 break
             
             else:
-                print("Minuto não permitido!")
+                print("Minuto não permitido!\n")
          
     return minuto

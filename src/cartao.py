@@ -7,6 +7,7 @@ from exceptions import verifica_id, verifica_minuto
 def insere_cartao(id_partida, id_clube, cursor, conexao):
     """Função utilizada para inserir os cartões em uma partida."""
     
+    # Enquanto os dados não forem válidos ou tiverem mais cartões:
     while True:
         try:
             num_cartoes = int(input("Tiveram quantos cartões?: "))
@@ -21,6 +22,7 @@ def insere_cartao(id_partida, id_clube, cursor, conexao):
             else:
                 print("Número de cartões não permitido!")
     
+    # Verifica se houve cartões:
     if num_cartoes > 0:
         print("Agora, informe o ID do jogador que levou o cartão, com quantos minutos foi e qual a cor do cartão (A: amarelo ou V: vermelho):")
         
@@ -51,6 +53,8 @@ def insere_cartao(id_partida, id_clube, cursor, conexao):
 def imprime_cartoes_vermelhos(id_partida, id_clube, cursor):
     """Função utilzada para imprimir os cartões vermelhos de uma partida."""
     
+    # Comando utilizado para obter os dados dos cartões vermelhos de uma
+    # partida:
     comando = """SELECT minuto, nome, tipo FROM cartao JOIN jogador
             ON cartao.id_jogador = jogador.id_jogador
             WHERE cartao.id_partida = %s AND jogador.id_clube = %s 
@@ -61,7 +65,9 @@ def imprime_cartoes_vermelhos(id_partida, id_clube, cursor):
         cursor.execute(comando, (id_partida, id_clube)) # executa o respectivo comando
         resultado = cursor.fetchall() # leitura do banco de dados
         
+        # Se a houver resultado na query anterior:
         if resultado:
+            # Imprime os cartões vermelhos de uma partida:
             print("\n\t\tCartões Vermelhos:")    
             for jogador in resultado:
                 print(f"\t\t\t{jogador[0]}` {jogador[1]}")

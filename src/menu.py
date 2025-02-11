@@ -2,6 +2,7 @@ from time import sleep
 from clube import clube_input, inserir_clube, remover_clube, buscar_clube, atualizar_clube
 from jogador import jogador_input, inserir_jogador, remover_jogador, buscar_jogadores, atualizar_jogador
 from partida import partida_input, inserir_partida, remover_partida, atualizar_partida, buscar_partidas
+from estatisticas import maiores_artilheiros, mais_assistencias, mais_gols_acrescimos, maior_numero_cartoes, mais_estrangeiros
 from exceptions import verifica_id
 
 
@@ -9,6 +10,7 @@ def menu_clubes():
     """Função utilizada para obter informações dos clubes."""
     
     executando = True
+    # Enquanto o usuário quiser informações sobre os clubes:
     while executando:
         print("\n--------- MENU CLUBES ---------\n")
         
@@ -52,6 +54,7 @@ def menu_jogadores():
     """Função utilizada para obter informações dos jogadores."""
     
     executando = True
+    # Enquanto o usuário quiser informações sobre os jogadores:
     while executando:
         print("\n--------- MENU JOGADORES ---------\n")
         
@@ -95,6 +98,7 @@ def menu_partidas():
     """Função utilizada para obter informações das partidas."""
     
     executando = True
+    # Enquanto o usuário quiser informações sobre as partidas:
     while executando:
         print("\n--------- MENU PARTIDAS ---------\n")
         
@@ -138,11 +142,38 @@ def menu_estatisticas():
     """Função utilizada para obter as estatísticas do campeonato."""
     
     executando = True
+    # Enquanto o usuário quiser informações sobre as estatísticas:
     while executando:
         print("\n--------- MENU ESTATÍSTICAS ---------\n")
         
         print("1- Artilheiros do campeonato")
         print("2- Jogadores com mais assistências no campeonato")
-        print("3- Jogadores com mais gols e assistências no campeonato")
+        print("3- Clubes com mais gols nos acréscimos")
         print("4- Jogadores com mais cartões no campeonato")
-        print("5- Voltar\n")
+        print("5- Clubes com mais jogadores estrangeiros do campeonato")
+        print("6- Voltar\n")
+        
+        opcao = int(input("Opção selecionada: "))
+        
+        match opcao:
+            case 1:
+                maiores_artilheiros()
+            
+            case 2:
+                mais_assistencias()
+            
+            case 3:
+                mais_gols_acrescimos()
+            
+            case 4:
+                maior_numero_cartoes()
+            
+            case 5:
+                mais_estrangeiros()
+                
+            case 6:
+                executando = False
+                
+            case _:
+                print("Opção inválida! Tente novamente...\n")
+                sleep(1.5)

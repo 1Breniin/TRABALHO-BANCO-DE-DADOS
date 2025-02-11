@@ -1,7 +1,7 @@
 from mysql.connector import Error
 from time import sleep
 from conexao_bd import bd_conectar
-from exceptions import verifica_id, verifica_resultado, verifica_minuto
+from exceptions import verifica_id, verifica_resultado
 from clube import existe_clube
 from escalados import insere_escalados, imprime_escalados
 from gol import insere_gols, imprime_gols
@@ -27,14 +27,17 @@ def partida_input():
         respeito de qual partida a query será executada.
     """
     
-    data_inicio = input("Data de início (YYYY-MM-DD): ")
-    
+    data_inicio = input("Data de início (YYYY-MM-DD): ").strip()
+
+    # Enquanto os dados de entrada não forem válidos: 
     while True:
         print("A seguir, informe o ID do clube mandante:")
         id_mandante = verifica_id()
         print("Já agora, informe o ID do clube visitante:")
         id_visitante = verifica_id()
 
+        # Verifica se os clubes da partida não existem ou se eles são os
+        # mesmos clubes:
         if not(existe_clube(id_mandante)) or not(existe_clube(id_visitante)) or id_mandante == id_visitante:
             print("Dados inválidos! Tente novamente...\n")
             sleep(1)
@@ -58,6 +61,8 @@ def partida_disputada(id_mandante, id_visitante, cursor, conexao):
         determinada partida.
     """    
 
+    # Comando utilizado para obter o número de partidas realizadas entre os
+    # clubes, nas quais o mandante é id_mandante e o visitante é id_visitante:
     comando = """SELECT COUNT(*) FROM partida
             WHERE (id_mandante = %s AND id_visitante = %s)"""
     
@@ -84,7 +89,8 @@ def contar_num_partida(id_clube, cursor, conexao):
         Função utilizada para verificar se um determinado clube já disputou
         todas as 38 partidas.
     """  
-        
+    
+    # Comandos utilizados para contar o número de partidas do clube:
     comando_mandante = """SELECT COUNT(*) FROM partida 
                 WHERE id_mandante = %s"""
     comando_visitante = """SELECT COUNT(*) FROM partida 
@@ -95,6 +101,7 @@ def contar_num_partida(id_clube, cursor, conexao):
         cursor.execute(comando_mandante, (id_clube,))
         # Leitura do banco de dados:
         num_partidas_mandante = cursor.fetchone()[0]
+        # Executa o respectivo comando: 
         cursor.execute(comando_visitante, (id_clube,))
         # Leitura do banco de dados:
         num_partidas_visitante = cursor.fetchone()[0]
@@ -136,8 +143,10 @@ def inserir_dados_partida(id_partida, partida, cursor, conexao):
         
 
 def remover_dados_partida(id_partida, cursor, conexao):
-    """Função utilizada para remvor todos os dados de uma partida."""
-     
+    """Função utilizada para remover todos os dados de uma partida."""
+    
+    # Comandos utilizados para remover os dados de uma partida a respeito dos
+    # jogadores escalados, dos gols marcados e das assistências:
     comando_escalados = """DELETE from escalados WHERE id_partida = %s"""
     comando_gol = """DELETE from gol WHERE id_partida = %s"""
     comando_assistencia = """DELETE FROM assistencia WHERE id_jogador IN
@@ -163,7 +172,7 @@ def existe_partida(id_partida):
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
-    # Comando para verificar se a partida existe no banco de dados:
+    # Comando para obter o número de partidas com id_partida:
     comando = """SELECT COUNT(*) FROM partida WHERE id_partida = %s"""
     
     existe = False
@@ -190,7 +199,9 @@ def inserir_partida(partida):
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
+    # Primeiramente, verifica se a partida já não foi disputada:
     if not(partida_disputada(partida.id_mandante, partida.id_visitante, cursor, conexao)):
+        # Em seguida, verifica se os clubes já não jogaram as 38 partidas:
         if contar_num_partida(partida.id_mandante, cursor, conexao) < 38 and contar_num_partida(partida.id_visitante, cursor, conexao) < 38:
         
             # Comando para inserir a partida no banco de dados:
@@ -208,7 +219,6 @@ def inserir_partida(partida):
                         
                 # Obtém o id da partida:
                 id_partida = cursor.lastrowid
-                        
                 inserir_dados_partida(id_partida, partida, cursor, conexao)
 
             except Error as e:
@@ -261,14 +271,17 @@ def remover_partida(id_partida):
 def atualizar_partida(id_partida):
     """Função utilizada para atualizar as informações de uma partida."""
     
+    # Primeiramente, verifica se a partida existe:
     if existe_partida(id_partida):
         print(f"Informações atualizadas da partida com ID {id_partida}:\n")
     
         conexao = bd_conectar()
         cursor = conexao.cursor()
             
+        # Lê as novas informações para a partida:
         partida_atualizada = partida_input()
         
+        # Comando utilizado para atualizar as informações da partida:
         comando = """UPDATE partida SET data_inicio = %s, id_mandante = %s,
                 id_visitante = %s, resultado_mandante = %s, resultado_visitante = %s
                 WHERE id_partida = %s"""
@@ -283,16 +296,20 @@ def atualizar_partida(id_partida):
                                      id_partida,))
             
             conexao.commit() # edita o banco de dados
-                
+            
+            # Comando utilizada para obter as informações de uma id_partida:
             comando = """SELECT data_inicio, id_mandante, id_visitante, resultado_mandante,
                     resultado_visitante FROM partida WHERE id_partida = %s"""
                     
             cursor.execute(comando, (id_partida,)) # executa o respectivo comando
             resultado = cursor.fetchone() # leitura do banco de dados
          
+            # Enquanto as novas informações forem fornecidas ou se não houver
+            # novos dados:
             while True:   
                 mudancas = input("Ocorreram mudanças nos escalados, gols, cartões ou assistências? (S/N): ").strip().capitalize()
-
+                
+                # Verifica se houve mudanças no dados da partida:
                 if mudancas == 'S':
                     remover_dados_partida(id_partida, cursor, conexao)
                     
@@ -305,7 +322,7 @@ def atualizar_partida(id_partida):
                     break
                 
                 else:
-                    print("Opção inválida! Digite 'S' ou 'N'...")
+                    print("Opção inválida! Digite 'S' ou 'N'...\n")
                     sleep(1)
                 
         except Error as e:
@@ -336,8 +353,9 @@ def buscar_partidas(nome_clube):
         cursor.execute(comando, (nome_clube,)) # executa o respectivo comando
         resultado = cursor.fetchone() # leitura do banco de dados
         
+        # Se a query anterior obteve algum resultado
         if resultado:
-            id_clube = resultado[0]
+            id_clube = resultado[0] # obtém o id_clube do resultado da query
             
             # Comando para obter todas as partidas de um determinado clube:
             comando = """SELECT id_partida, data_inicio, mandante.nome,
@@ -352,7 +370,9 @@ def buscar_partidas(nome_clube):
             cursor.execute(comando, (id_clube, id_clube,))
             partidas = cursor.fetchall() # leitura do banco de dados
             
+            # Verifica se o clube já disputou partidas:
             if partidas:
+                # Imprime cada partida do clube:
                 print(f"\nPartidas do clube {nome_clube}:\n")
                 for partida in partidas:
                     print(f"\tID: {partida[0]}\n\tData de início: {partida[1]}\n\t{partida[2]} {partida[4]} X {partida[5]} {partida[3]}\n")

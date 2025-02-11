@@ -20,12 +20,12 @@ def clube_input():
         respeito de qual clube a query será executada.
     """
     
-    nome = input("Nome: ").strip()
-    cidade = input("Cidade: ").strip()
-    estado = input("Estado: ").strip()
-    estadio = input("Estádio: ").strip()
-    maior_rival = input("Maior rival: ").strip()
-    tecnico = input("Técnico: ").strip()
+    nome = input("Nome: ").strip().capitalize()
+    cidade = input("Cidade: ").strip().capitalize()
+    estado = input("Estado: ").strip().capitalize()
+    estadio = input("Estádio: ").strip().capitalize()
+    maior_rival = input("Maior rival: ").strip().capitalize()
+    tecnico = input("Técnico: ").strip().capitalize()
     
     # Criação de um objeto clube com os dados digitados pelo usuário:
     clube = Clube(nome, cidade, estado, estadio, maior_rival, tecnico)
@@ -84,7 +84,7 @@ def inserir_clube(clube):
         print(f"Erro ao realizar a query: {e}")
         
     else:
-        print(f"\nO clube {clube.nome} foi inserido com sucesso!")
+        print(f"\nO clube {clube.nome} foi inserido com sucesso!\n")
         
     finally:
         cursor.close() # fechando o cursor
@@ -94,6 +94,7 @@ def inserir_clube(clube):
 def remover_clube(id_clube):
     """Função utilizada para remover um clube."""
     
+    # Primeiramente, verifica se o clube existe:
     if existe_clube(id_clube):
     
         conexao = bd_conectar()
@@ -110,14 +111,14 @@ def remover_clube(id_clube):
             print(f"Erro ao realizar a query: {e}")
             
         else:
-            print(f"\nO clube com ID {id_clube} foi removido com sucesso!")
+            print(f"\nO clube com ID {id_clube} foi removido com sucesso!\n")
             
         finally:
             cursor.close() # fechando o cursor
             conexao.close() # fechando a conexão
     
     else:
-        print(f"\nO clube com o ID {id_clube} não existe!")
+        print(f"\nO clube com o ID {id_clube} não existe!\n")
 
 
 def buscar_clube(nome):
@@ -137,29 +138,32 @@ def buscar_clube(nome):
     except Error as e:
         print(f"Erro ao realizar a query: {e}")
         
+    else:
+        if informacoes:
+            print(f"\nInformações do clube {nome}:\n")
+            print(f"\tID: {informacoes[0]}\n\tCidade: {informacoes[1]}\n\tEstado: {informacoes[2]}\n\tEstádio: {informacoes[3]}\n\tMaior rival: {informacoes[4]}\n\tTécnico: {informacoes[5]}\n")
+    
+        else:
+            print(f"\nO clube {nome} não foi encontrado!\n")
+        
     finally:
         cursor.close() # fechando o cursor
         conexao.close() # fechando a conexão
         
-    if informacoes:
-        print(f"\nInformações do clube {nome}:\n")
-        print(f"\tID: {informacoes[0]}\n\tCidade: {informacoes[1]}\n\tEstado: {informacoes[2]}\n\tEstádio: {informacoes[3]}\n\tMaior rival: {informacoes[4]}\n\tTécnico: {informacoes[5]}\n")
-    
-    else:
-        print(f"O clube {nome} não foi encontrado!\n")
-
 
 def atualizar_clube(id_clube):
     """Função utilizada para atualizar as informações de um clube."""
     
+    # Primeiramente, verifica se o clube existe:
     if existe_clube(id_clube):
         print(f"Informações atualizadas do clube com ID {id_clube}:\n")
     
         conexao = bd_conectar()
         cursor = conexao.cursor()
-            
-        clube_atualizado = clube_input()
-            
+        
+        clube_atualizado = clube_input() # lê as novas informações para o clube
+        
+        # Comando utilizado para atualizar as informações do clube:
         comando = """UPDATE clube SET nome = %s, cidade = %s, estado = %s,
                 estadio = %s, maior_rival = %s, tecnico = %s
                 WHERE id_clube = %s"""
@@ -178,11 +182,11 @@ def atualizar_clube(id_clube):
             print(f"Erro ao realizar a query: {e}")
                 
         else:
-            print(f"\nO clube com ID {id_clube} foi atualizado com sucesso!")
+            print(f"\nO clube com ID {id_clube} foi atualizado com sucesso!\n")
                 
         finally:
             cursor.close() # fechando o cursor
             conexao.close() # fechando a conexão
     
     else:
-        print(f"\nO clube com o ID {id_clube} não existe!")
+        print(f"\nO clube com o ID {id_clube} não existe!\n")

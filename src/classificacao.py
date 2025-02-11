@@ -3,13 +3,14 @@ from conexao_bd import bd_conectar
 
 def gerar_classificacao():
     """
-    Função utilizada para gerar automaticamente a classificação do campeonato
-    até o momento.
+        Função utilizada para gerar automaticamente a classificação do
+        campeonato até o momento.
     """
     
     conexao = bd_conectar()
     cursor = conexao.cursor()
     
+    # Comando utilizado para obter as informações da classificação:
     comando = """SELECT c.nome AS clube,
             SUM(CASE
                 WHEN p.resultado_mandante > p.resultado_visitante AND
@@ -59,7 +60,10 @@ def gerar_classificacao():
         print(f"Erro ao realizar a query: {e}")
         
     else:
+        # Se a query anterior retornou algum resultado:
         if classificacao:
+            # Imprime a classificação atual do campeonato:
+            print("-" * 90)
             print(f"{'POS':^12}{'Clube':^30}{'J':^8}{'V':^8}{'E':^8}{'D':^8}{'SG':^8}{'PTS':^8}")
             print("-" * 90)
             pos = 1

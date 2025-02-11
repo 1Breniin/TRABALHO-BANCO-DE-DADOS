@@ -8,6 +8,7 @@ def executar():
     
     executando = True
     while executando:
+        # Menu principal:
         print("\n=========== CAMPEONATO BRASILEIRO ===========\n")
         
         print("1- Classificação")

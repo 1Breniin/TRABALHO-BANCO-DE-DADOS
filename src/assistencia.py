@@ -5,16 +5,23 @@ from exceptions import verifica_id
 
 
 def insere_assistencia(id_clube, minuto, cursor, conexao):
-    """Função utilizada para inserir os gols em uma partida."""
+    """Função utilizada para inserir as assistências em uma partida."""
     
+    # Enquanto os dados não forem fornecidos corretamente ou enquanto não
+    # houverem mais assistências:
     while True:
         assistencia = input("Houve assistência (S/N): ").strip().capitalize()
         
+        # Verifica se houve assistência no gol:
         if assistencia == 'S':
             print("Agora, informe o ID do jogador que deu a assistência:")
             id_jogador = verifica_id()
-                 
+                
+            # Primeiramente, verifica se o jogador que deu a assistência
+            # pertence ao clube que marcou o gol:
             if jogador_pertence_clube(id_jogador, id_clube, cursor):
+                # Comando utilizado para inserir a assistência na tabela
+                # assistência:
                 comando = """INSERT INTO assistencia (minuto, id_jogador)
                 VALUES (%s, %s)"""
                 
@@ -30,5 +37,5 @@ def insere_assistencia(id_clube, minuto, cursor, conexao):
             break
             
         else:
-            print("Por favor, digite S ou N!")
+            print("Por favor, digite S ou N!\n")
             sleep(1)
